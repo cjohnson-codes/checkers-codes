@@ -1,0 +1,60 @@
+# Polybius Checkerboard Cipher
+# I and J share the same position
+
+checkerboard = (
+    ('A', 'B', 'C', 'D', 'E'),
+    ('F', 'G', 'H', 'I', 'K'),
+    ('L', 'M', 'N', 'O', 'P'),
+    ('Q', 'R', 'S', 'T', 'U'),
+    ('V', 'W', 'X', 'Y', 'Z')
+)
+
+def locate(letter):
+    for row in range(len(checkerboard)):
+        for col in range(len(checkerboard[row])):
+            if checkerboard[row][col] == letter:
+                return (row + 1, col + 1)
+    return None
+
+def encode(message):
+    result = ""
+
+    for ch in message.upper():
+        if ch.isalpha():
+
+            if ch == 'J':
+                ch = 'I'
+
+            position = locate(ch)
+
+            result += str(position[0]) + str(position[1]) + " "
+
+    return result
+
+def decode(code):
+    result = ""
+
+    numbers = code.split()
+
+    for pair in numbers:
+        row = int(pair[0]) - 1
+        col = int(pair[1]) - 1
+
+        result += checkerboard[row][col]
+
+    return result
+
+choice = input("Encode or Decode (E/D): ").upper()
+
+if choice == "E":
+    message = input("Enter message: ")
+    print("Encoded Message:")
+    print(encode(message))
+
+elif choice == "D":
+    code = input("Enter Polybius code: ")
+    print("Decoded Message:")
+    print(decode(code))
+
+else:
+    print("Invalid option")

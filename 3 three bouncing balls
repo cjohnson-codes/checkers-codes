@@ -1,0 +1,37 @@
+from graphics import *
+import time
+
+def main():
+    win = GraphWin("Three Bouncing Balls", 600, 400)
+
+    balls = []
+
+    colors = ["red", "blue", "green"]
+
+    for i in range(3):
+        ball = Circle(Point(100 + i * 100, 100), 20)
+        ball.setFill(colors[i])
+        ball.draw(win)
+
+        balls.append({
+            "shape": ball,
+            "dx": 3 + i,
+            "dy": 2 + i
+        })
+
+    while True:
+        for b in balls:
+
+            b["shape"].move(b["dx"], b["dy"])
+
+            center = b["shape"].getCenter()
+
+            if center.getX() <= 20 or center.getX() >= 580:
+                b["dx"] = -b["dx"]
+
+            if center.getY() <= 20 or center.getY() >= 380:
+                b["dy"] = -b["dy"]
+
+        time.sleep(0.02)
+
+main()
